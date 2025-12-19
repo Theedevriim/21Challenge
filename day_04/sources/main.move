@@ -28,10 +28,19 @@ module challenge::day_04 {
     //     // Your field here
     // }
 
+    structure HabitList has drop {
+        habits: vector<Habit>,
+    }
+
     // TODO: Write a function 'empty_list' that returns an empty HabitList
     // public fun empty_list(): HabitList {
     //     // Use vector::empty() to create an empty vector
     // }
+    public fun empty_list(): HabitList {
+        HabitList {
+            habits: vector::empty<Habit>(),
+        }
+    }
 
     // TODO: Write a function 'add_habit' that takes:
     // - list: &mut HabitList (mutable reference)
@@ -40,5 +49,9 @@ module challenge::day_04 {
     // public fun add_habit(list: &mut HabitList, habit: Habit) {
     //     // Your code here
     // }
+
+    public fun add_habit(list: &mut HabitList, habit: Habit) {
+        vector::push_back(&mut list.habits, habit);
+    }
 }
 
