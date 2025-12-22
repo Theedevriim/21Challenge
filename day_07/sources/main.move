@@ -71,5 +71,27 @@ module challenge::day_07 {
     // fun test_complete_habit() {
     //     // Your code here
     // }
-}
 
+    #[test]
+    fun test_add_habits() {
+        let mut list = empty_list();
+        let habit1 = make_habit(b"Exercise".to_string());
+        let habit2 = make_habit(b"Read".to_string());
+        add_habit(&mut list, habit1);
+        add_habit(&mut list, habit2);
+        let len = vector::length(&list.habits);
+        assert!(len == 2, 0);
+    }
+
+    #[test]
+    fun test_complete_habit() {
+        let mut list = empty_list();
+        let habit = new_habit(string::utf8(b"Exercise"));
+        add_habit(&mut list, habit);
+        complete_habit(&mut list, 0);
+
+        let completed_habit = vector::borrow(&list.habits, 0);
+        
+        assert!(vector::borrow(&list.habits, 0).completed == true, 0);
+    }
+}
