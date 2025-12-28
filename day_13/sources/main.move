@@ -78,5 +78,30 @@ module challenge::day_13 {
     // public fun completed_count(board: &TaskBoard): u64 {
     //     // Your code here
     // }
+    public fun total_reward(board: &TaskBoard): u64 {
+        let len = vector::length(&board.tasks);
+        let mut i = 0;
+        let mut total = 0;
+        while (i < len) {
+            let task = vector::borrow(&board.tasks, i);
+            total = total + task.reward;
+            i = i + 1;
+        };
+        total
+    }
+
+    public fun completed_count(board: &TaskBoard): u64 {
+        let len = vector::length(&board.tasks);
+        let mut i = 0;
+        let mut count = 0;
+        while (i < len) {
+            let task = vector::borrow(&board.tasks, i);
+            if (task.status == TaskStatus::Completed) {
+                count = count + 1;
+            };
+            i = i + 1;
+        };
+        count
+    }
 }
 
