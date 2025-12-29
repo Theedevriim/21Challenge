@@ -15,6 +15,7 @@ module challenge::day_14 {
     #[test_only]
     use std::unit_test::assert_eq;
     use std::string;
+    use std::option::borrow_mut;
 
     // Copy from day_13: All structs and functions
     public enum TaskStatus has copy, drop {
@@ -104,5 +105,52 @@ module challenge::day_14 {
     // fun test_create_board_and_add_task() {
     //     // Your code here
     // }
-}
 
+    #[test]
+    fun test_create_board_and_add_task() {
+        let owner = @0x1;
+        let mut board = new_board(owner);
+        
+        let task = new_task(string::utf8(b"Fix bug"), 100);
+        add_task(&mut board, task);
+        
+        let len = vector::length(&board.tasks);
+        assert_eq!(len, 1);
+    }
+
+    #[test]
+    fun test_complete_task() {
+        let owner = @0x1;
+        let mut board = new_board(owner);
+        
+        let task1 = new_task(string::utf8(b"Task 1"), 50);
+        let task2 = new_task(string::utf8(b"Task 2"), 100);
+        
+        add_task(&mut board, task1);
+        add_task(&mut board, task2);
+        
+        // Complete first task
+        let task = vector::borrow_mut(&mut board.tasks, 0);
+        complete_task(task);
+        
+        let completed = completed_count(&board);
+        assert_eq!(completed, 1);
+    }
+
+    #[test]
+    fun test_total_reward() {
+        let owner = @0x1;
+        let mut board = new_board(owner);
+        
+        let task1 = new_task(string::utf8(b"Task 1"), 50);
+        let task2 = new_task(string::utf8(b"Task 2"), 100);
+        let task3 = new_task(string::utf8(b"Task 3"), 25);
+        
+        add_task(&mut board, task1);
+        add_task(&mut board, task2);
+        add_task(&mut board, task3);
+        
+        let total = total_reward(&board);
+        assert_eq!(total, 175);
+    }
+}
