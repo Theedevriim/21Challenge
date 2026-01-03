@@ -88,7 +88,7 @@ module challenge::day_19 {
 
     entry fun create_farm(ctx: &mut TxContext) {
         let farm = new_farm(ctx);
-        transfer::transfer(farm, sender(ctx));
+        transfer::transfer(farm, ctx.sender());
     }
 
     fun plant_on_farm(farm: &mut Farm, plotId: u8) {
@@ -113,6 +113,9 @@ module challenge::day_19 {
     // public fun total_planted(farm: &Farm): u64 {
     //     // Your code here
     // }
+    fun total_planted(farm: &Farm): u64 {
+        farm.counters.planted
+    }
 
     // TODO: Write a function 'total_harvested' that:
     // - Takes farm: &Farm
@@ -120,6 +123,9 @@ module challenge::day_19 {
     // public fun total_harvested(farm: &Farm): u64 {
     //     // Your code here
     // }
+    fun total_harvested(farm: &Farm): u64 {
+        farm.counters.harvested
+    }
 
     // TODO: (Optional) Write a test that:
     // - Creates a farm
